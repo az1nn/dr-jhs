@@ -38,6 +38,9 @@ jobs:
       - name: Static published-route and sitemap consistency gate
         run: node scripts/static-route.mjs
 
+      - name: Static local asset/reference integrity gate
+        run: node scripts/static-assets.mjs
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
