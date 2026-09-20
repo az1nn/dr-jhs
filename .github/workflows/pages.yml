@@ -3,6 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["master", "main"]
+    paths-ignore:
+      - ".siga/**"
   workflow_dispatch:
 
 permissions:
