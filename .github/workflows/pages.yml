@@ -29,6 +29,9 @@ jobs:
       - name: Static smoke gate
         run: node scripts/static-smoke.mjs
 
+      - name: Static accessibility and HTML integrity gate
+        run: node scripts/static-a11y.mjs
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
