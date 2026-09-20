@@ -101,19 +101,25 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD BEFORE HANDOFF WRITE: `80026bdfe264fdc0e84a5fced97f53c45b263ea6`
-- STATE: `ADVANCE`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca`
+- STATE: `WATCH`
 - PR: none
-- VERIFIED GATES:
-  - Deploy GitHub Pages run `35515924065`: success
-  - Pages build/deployment run `35515923101`: success
+- VERIFIED:
+  - only branch observed: `master`
+  - no pull requests observed
+  - commit `a18dbf404d1a9790ec655cd121cbe2e4b39d1cda` added `scripts/static-smoke.mjs`
+  - commit `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca` runs that smoke check before GitHub Pages configuration/deploy
+  - current `index.html` contains the required pt-BR language, meta description, canonical URL, Instagram CTA destination and CRM identification checked by the smoke gate
 - DELTA:
-  - repository-local SIGA installed at `.siga/SKILL.md` by commit `f83fe3316764e6a865827226d65f3e16a7bde53a`
-  - Pages workflow now ignores SIGA-only changes via `paths-ignore: .siga/**`
-  - responsive logo, optimized asset and GitHub Pages publication remain verified
-- OPEN WORK: none from the resumed SIGA-adoption/deployment unit
+  - pre-deploy quality gate now checks required static files
+  - critical Instagram CTA destination is contract-tested
+  - core page metadata and CRM identification are contract-tested
+  - deployment is blocked automatically if the static contract breaks
+- OPEN WORK:
+  - verify the GitHub Pages push run for `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca` reaches success
+  - verify the published site remains healthy after that run
 - NEXT LOGICAL UNIT:
-  - add a lightweight pre-deploy static smoke/quality gate for required files, critical CTA destination and core metadata before publishing.
+  - after the deploy is verified green, classify `ADVANCE` and add a lightweight accessibility/HTML integrity quality check without introducing a build framework
 - HUMAN GATES: none known
 
 ## Mutation rule
