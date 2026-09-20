@@ -32,6 +32,9 @@ jobs:
       - name: Static accessibility and HTML integrity gate
         run: node scripts/static-a11y.mjs
 
+      - name: Static social and SEO metadata integrity gate
+        run: node scripts/static-seo.mjs
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
