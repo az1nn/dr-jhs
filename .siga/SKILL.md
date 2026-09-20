@@ -101,21 +101,19 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD: `bd2455696ba99d908bef73c197d6e4fc0e64dd14`
-- STATE AT RECONCILE: `RESUME`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `80026bdfe264fdc0e84a5fced97f53c45b263ea6`
+- STATE: `ADVANCE`
 - PR: none
 - VERIFIED GATES:
-  - GitHub Pages workflow run `35515593956`: success
-  - Pages build/deployment run `35515682346`: success
-- DELTA VERIFIED BEFORE THIS WRITE:
-  - responsive JHS logo sizing is present in `styles.css`
-  - optimized asset `assets/logo-jhs.webp` is referenced by the page
-  - GitHub Pages auto-enablement is configured in `.github/workflows/pages.yml`
-  - deployment failures from earlier runs were superseded by successful runs on HEAD
-- OPEN WORK:
-  - persist SIGA inside this repository (this write closes that pending obligation)
+  - Deploy GitHub Pages run `35515924065`: success
+  - Pages build/deployment run `35515923101`: success
+- DELTA:
+  - repository-local SIGA installed at `.siga/SKILL.md` by commit `f83fe3316764e6a865827226d65f3e16a7bde53a`
+  - Pages workflow now ignores SIGA-only changes via `paths-ignore: .siga/**`
+  - responsive logo, optimized asset and GitHub Pages publication remain verified
+- OPEN WORK: none from the resumed SIGA-adoption/deployment unit
 - NEXT LOGICAL UNIT:
-  - after this commit and its Pages checks settle, re-run SIGA; if all gates are green, classify ADVANCE and choose the next product-quality increment.
+  - add a lightweight pre-deploy static smoke/quality gate for required files, critical CTA destination and core metadata before publishing.
 - HUMAN GATES: none known
 
 ## Mutation rule
