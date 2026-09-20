@@ -101,29 +101,31 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD BEFORE HANDOFF WRITE: `70d57763474ee00f1ac0e0feda099d5b1cec7580`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `acc64d6dccb3d3173f719e996dee90452139a27e`
 - STATE: `ADVANCE`
 - PR: none
 - VERIFIED:
   - default branch is `master`
   - no open pull requests observed
-  - social/SEO commit `73ba2cf44a3dcdde7542034eb15d35a77cf4930f` completed canonical Pages workflow run `35518659015` successfully
-  - that run passed static smoke, accessibility/HTML integrity, social/SEO integrity, artifact upload and Pages deployment
-  - commit `70d57763474ee00f1ac0e0feda099d5b1cec7580` added `scripts/static-route.mjs` and wired it into `.github/workflows/pages.yml`
-  - the new gate enforces the expected canonical route `https://az1nn.github.io/dr-jhs/`, the matching `robots.txt` Sitemap directive and the single matching `sitemap.xml` location
-  - canonical workflow run `35520900098` for `70d57763474ee00f1ac0e0feda099d5b1cec7580` completed successfully
-  - every workflow step was green, including smoke, accessibility, social/SEO, published-route/sitemap, artifact upload and deploy
-  - parallel Pages workflow run `35520899323` also completed successfully for the same HEAD
-  - direct HTTP inspection of the published GitHub Pages URL was unavailable from the web-inspection environment; publication status is therefore based on GitHub's successful Pages workflow/deploy records
+  - prior route/sitemap unit remained green and its handoff commit `8ca11d8de840ab15089c52d31d961f5c758e59bb` completed Pages run `35520968077` successfully
+  - commit `acc64d6dccb3d3173f719e996dee90452139a27e` atomically changed exactly:
+    - `.github/workflows/pages.yml`
+    - `scripts/static-assets.mjs`
+  - the new gate checks local HTML/CSS resource references, rejects repository-root escapes, missing targets, non-files and zero-byte resources
+  - local pre-push validation of `scripts/static-assets.mjs` passed
+  - canonical workflow run `35521371693` completed successfully for `acc64d6dccb3d3173f719e996dee90452139a27e`
+  - every canonical workflow step was green, including smoke, accessibility/HTML integrity, social/SEO, published-route/sitemap, local asset/reference integrity, artifact upload and deploy
+  - dynamic Pages run `35521370858` also completed successfully for the same HEAD
+  - direct HTTP inspection of `https://az1nn.github.io/dr-jhs/` remains unavailable from the external web-inspection tool; publication status is therefore based on GitHub's successful deploy records
 - ACTIVE GATES:
   - none
 - DELTA:
-  - CI now prevents canonical route, `robots.txt` and `sitemap.xml` from drifting independently
-  - no runtime dependency or framework was added
+  - CI now prevents broken relative HTML/CSS resource references from reaching deployment
+  - no product copy, styling, runtime dependency or framework was changed
 - OPEN WORK:
-  - none for the published-route/sitemap consistency unit
+  - none for the local asset/reference integrity unit
 - NEXT LOGICAL UNIT:
-  - add a lightweight local asset/reference integrity gate that verifies relative HTML/CSS resource references resolve to existing non-empty repository files before deployment
+  - add a lightweight static conversion/telemetry contract gate that verifies Instagram CTA targets and `data-cta` placement metadata, the lead-assist form hook/event contract, and the documented UTM attribution keys before deployment
 - HUMAN GATES: none known
 
 ## Mutation rule
