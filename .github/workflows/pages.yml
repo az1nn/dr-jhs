@@ -35,6 +35,9 @@ jobs:
       - name: Static social and SEO metadata integrity gate
         run: node scripts/static-seo.mjs
 
+      - name: Static published-route and sitemap consistency gate
+        run: node scripts/static-route.mjs
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
