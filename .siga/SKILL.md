@@ -101,25 +101,28 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD BEFORE HANDOFF WRITE: `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `7825ca620fddbc18d8c79cf23101f66d83af7e07`
 - STATE: `WATCH`
 - PR: none
 - VERIFIED:
   - only branch observed: `master`
   - no pull requests observed
-  - commit `a18dbf404d1a9790ec655cd121cbe2e4b39d1cda` added `scripts/static-smoke.mjs`
-  - commit `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca` runs that smoke check before GitHub Pages configuration/deploy
-  - current `index.html` contains the required pt-BR language, meta description, canonical URL, Instagram CTA destination and CRM identification checked by the smoke gate
+  - prior smoke-gate commit `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca` completed both Pages runs successfully:
+    - Deploy GitHub Pages `35516297363`: success
+    - pages build and deployment `35516296724`: success
+  - commit `7825ca620fddbc18d8c79cf23101f66d83af7e07` atomically added `scripts/static-a11y.mjs` and wired it before Pages deployment
+  - new gate checks doctype/viewport, single h1/main, landmarks, unique IDs, fragment targets, image alt attributes, safe target=_blank rel values, explicit button types, skip link, form legend, live status region and heading hierarchy
+- ACTIVE GATES:
+  - Deploy GitHub Pages run `35516680184`: in_progress
+  - pages build and deployment run `35516679783`: in_progress
 - DELTA:
-  - pre-deploy quality gate now checks required static files
-  - critical Instagram CTA destination is contract-tested
-  - core page metadata and CRM identification are contract-tested
-  - deployment is blocked automatically if the static contract breaks
+  - deployment now blocks on both the existing product smoke contract and the new accessibility/HTML integrity contract
+  - no application runtime framework or external dependency was introduced
 - OPEN WORK:
-  - verify the GitHub Pages push run for `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca` reaches success
-  - verify the published site remains healthy after that run
+  - verify both runs for `7825ca620fddbc18d8c79cf23101f66d83af7e07` reach success
+  - if a gate fails, diagnose the failed step before any new product work
 - NEXT LOGICAL UNIT:
-  - after the deploy is verified green, classify `ADVANCE` and add a lightweight accessibility/HTML integrity quality check without introducing a build framework
+  - once both runs are green, classify `ADVANCE` and add a lightweight social/SEO metadata integrity gate covering absolute Open Graph image URL, Twitter metadata and structured-data URL consistency
 - HUMAN GATES: none known
 
 ## Mutation rule
