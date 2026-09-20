@@ -101,33 +101,29 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD BEFORE HANDOFF WRITE: `73ba2cf44a3dcdde7542034eb15d35a77cf4930f`
-- STATE: `WATCH`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `70d57763474ee00f1ac0e0feda099d5b1cec7580`
+- STATE: `ADVANCE`
 - PR: none
 - VERIFIED:
   - default branch is `master`
-  - no pull requests observed
-  - prior accessibility-gate deploy for commit `7825ca620fddbc18d8c79cf23101f66d83af7e07` completed successfully in canonical workflow run `35516680184`
-  - that run passed static smoke, accessibility/HTML integrity, artifact upload and Pages deployment; GitHub reported the published environment URL as `https://az1nn.github.io/dr-jhs/`
-  - parallel legacy Pages run `35516679783` was cancelled before executing steps and did not replace the successful canonical deployment
-  - commit `73ba2cf44a3dcdde7542034eb15d35a77cf4930f` atomically changed exactly:
-    - `.github/workflows/pages.yml`
-    - `index.html`
-    - `scripts/static-seo.mjs`
-  - new metadata contract requires canonical/og:url consistency, absolute HTTPS Open Graph image, matching Twitter metadata and JSON-LD URL/image consistency
+  - no open pull requests observed
+  - social/SEO commit `73ba2cf44a3dcdde7542034eb15d35a77cf4930f` completed canonical Pages workflow run `35518659015` successfully
+  - that run passed static smoke, accessibility/HTML integrity, social/SEO integrity, artifact upload and Pages deployment
+  - commit `70d57763474ee00f1ac0e0feda099d5b1cec7580` added `scripts/static-route.mjs` and wired it into `.github/workflows/pages.yml`
+  - the new gate enforces the expected canonical route `https://az1nn.github.io/dr-jhs/`, the matching `robots.txt` Sitemap directive and the single matching `sitemap.xml` location
+  - canonical workflow run `35520900098` for `70d57763474ee00f1ac0e0feda099d5b1cec7580` completed successfully
+  - every workflow step was green, including smoke, accessibility, social/SEO, published-route/sitemap, artifact upload and deploy
+  - parallel Pages workflow run `35520899323` also completed successfully for the same HEAD
+  - direct HTTP inspection of the published GitHub Pages URL was unavailable from the web-inspection environment; publication status is therefore based on GitHub's successful Pages workflow/deploy records
 - ACTIVE GATES:
-  - deployment verification for HEAD `73ba2cf44a3dcdde7542034eb15d35a77cf4930f` is pending
-  - current GitHub connector can inspect workflow jobs by run ID but does not expose push-run discovery by commit SHA; no green conclusion for this HEAD has been claimed
+  - none
 - DELTA:
-  - Open Graph image is now absolute
-  - `og:url`, Twitter title/description/image and JSON-LD `url` were added
-  - Pages deployment now runs `scripts/static-seo.mjs` after smoke and accessibility gates
+  - CI now prevents canonical route, `robots.txt` and `sitemap.xml` from drifting independently
+  - no runtime dependency or framework was added
 - OPEN WORK:
-  - discover the canonical Pages push run for HEAD `73ba2cf44a3dcdde7542034eb15d35a77cf4930f`
-  - verify smoke, accessibility/HTML integrity, social/SEO gate and Pages deployment all complete successfully
-  - diagnose any failed step before new product work
+  - none for the published-route/sitemap consistency unit
 - NEXT LOGICAL UNIT:
-  - once HEAD is green and published, classify `ADVANCE` and add a lightweight published-route/sitemap consistency gate so canonical URL, robots.txt and sitemap.xml cannot drift
+  - add a lightweight local asset/reference integrity gate that verifies relative HTML/CSS resource references resolve to existing non-empty repository files before deployment
 - HUMAN GATES: none known
 
 ## Mutation rule
