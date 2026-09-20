@@ -101,28 +101,33 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD BEFORE HANDOFF WRITE: `7825ca620fddbc18d8c79cf23101f66d83af7e07`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `73ba2cf44a3dcdde7542034eb15d35a77cf4930f`
 - STATE: `WATCH`
 - PR: none
 - VERIFIED:
-  - only branch observed: `master`
+  - default branch is `master`
   - no pull requests observed
-  - prior smoke-gate commit `5a0eeb0da90fae2b127d9b994f0a22a36a7cf5ca` completed both Pages runs successfully:
-    - Deploy GitHub Pages `35516297363`: success
-    - pages build and deployment `35516296724`: success
-  - commit `7825ca620fddbc18d8c79cf23101f66d83af7e07` atomically added `scripts/static-a11y.mjs` and wired it before Pages deployment
-  - new gate checks doctype/viewport, single h1/main, landmarks, unique IDs, fragment targets, image alt attributes, safe target=_blank rel values, explicit button types, skip link, form legend, live status region and heading hierarchy
+  - prior accessibility-gate deploy for commit `7825ca620fddbc18d8c79cf23101f66d83af7e07` completed successfully in canonical workflow run `35516680184`
+  - that run passed static smoke, accessibility/HTML integrity, artifact upload and Pages deployment; GitHub reported the published environment URL as `https://az1nn.github.io/dr-jhs/`
+  - parallel legacy Pages run `35516679783` was cancelled before executing steps and did not replace the successful canonical deployment
+  - commit `73ba2cf44a3dcdde7542034eb15d35a77cf4930f` atomically changed exactly:
+    - `.github/workflows/pages.yml`
+    - `index.html`
+    - `scripts/static-seo.mjs`
+  - new metadata contract requires canonical/og:url consistency, absolute HTTPS Open Graph image, matching Twitter metadata and JSON-LD URL/image consistency
 - ACTIVE GATES:
-  - Deploy GitHub Pages run `35516680184`: in_progress
-  - pages build and deployment run `35516679783`: in_progress
+  - deployment verification for HEAD `73ba2cf44a3dcdde7542034eb15d35a77cf4930f` is pending
+  - current GitHub connector can inspect workflow jobs by run ID but does not expose push-run discovery by commit SHA; no green conclusion for this HEAD has been claimed
 - DELTA:
-  - deployment now blocks on both the existing product smoke contract and the new accessibility/HTML integrity contract
-  - no application runtime framework or external dependency was introduced
+  - Open Graph image is now absolute
+  - `og:url`, Twitter title/description/image and JSON-LD `url` were added
+  - Pages deployment now runs `scripts/static-seo.mjs` after smoke and accessibility gates
 - OPEN WORK:
-  - verify both runs for `7825ca620fddbc18d8c79cf23101f66d83af7e07` reach success
-  - if a gate fails, diagnose the failed step before any new product work
+  - discover the canonical Pages push run for HEAD `73ba2cf44a3dcdde7542034eb15d35a77cf4930f`
+  - verify smoke, accessibility/HTML integrity, social/SEO gate and Pages deployment all complete successfully
+  - diagnose any failed step before new product work
 - NEXT LOGICAL UNIT:
-  - once both runs are green, classify `ADVANCE` and add a lightweight social/SEO metadata integrity gate covering absolute Open Graph image URL, Twitter metadata and structured-data URL consistency
+  - once HEAD is green and published, classify `ADVANCE` and add a lightweight published-route/sitemap consistency gate so canonical URL, robots.txt and sitemap.xml cannot drift
 - HUMAN GATES: none known
 
 ## Mutation rule
