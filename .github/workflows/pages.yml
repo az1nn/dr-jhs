@@ -41,6 +41,9 @@ jobs:
       - name: Static local asset/reference integrity gate
         run: node scripts/static-assets.mjs
 
+      - name: Static conversion and telemetry contract gate
+        run: node scripts/static-conversion.mjs
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:

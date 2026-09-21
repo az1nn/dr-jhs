@@ -24,8 +24,16 @@ URL prevista: `https://az1nn.github.io/dr-jhs/`
 
 ## Conversão
 
-Todos os CTAs direcionam para `https://ig.me/m/medicinal_cann`.
-O assistente de contato copia uma mensagem curta para a área de transferência e abre o Instagram, sem solicitar sintomas, diagnóstico ou outros dados sensíveis.
+Todos os CTAs rastreados direcionam para `https://ig.me/m/medicinal_cann` e usam `data-cta` para registrar a posição do clique.
+O assistente de contato `#leadAssist` copia uma mensagem curta para a área de transferência e abre o Instagram, sem solicitar sintomas, diagnóstico ou outros dados sensíveis.
+
+### Contrato de telemetria
+
+- Evento de clique nos CTAs: `instagram_click`, com a propriedade `placement` derivada de `data-cta`.
+- Evento de envio do assistente: `lead_assist_submit`, com a propriedade `modalidade`.
+- Chaves de atribuição aceitas: `utm_source`, `utm_medium`, `utm_campaign`, `utm_content` e `utm_term`.
+- A atribuição capturada é persistida localmente na chave `jhs_attribution`.
+- O site apenas prepara esses eventos em `window.dataLayer`; a ativação de GTM/GA4 pode ser feita depois sem mudar o contrato do front-end.
 
 ## Nota editorial
 
