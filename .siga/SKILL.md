@@ -101,31 +101,38 @@ O handoff deve registrar de forma compacta, quando aplicável:
 
 - REPO: `az1nn/dr-jhs`
 - BASE: `master`
-- OBSERVED HEAD BEFORE HANDOFF WRITE: `acc64d6dccb3d3173f719e996dee90452139a27e`
+- OBSERVED HEAD BEFORE HANDOFF WRITE: `fa2bc6265ad1bab22697d0f83fb34916c0fd7add`
 - STATE: `ADVANCE`
 - PR: none
 - VERIFIED:
   - default branch is `master`
-  - no open pull requests observed
-  - prior route/sitemap unit remained green and its handoff commit `8ca11d8de840ab15089c52d31d961f5c758e59bb` completed Pages run `35520968077` successfully
-  - commit `acc64d6dccb3d3173f719e996dee90452139a27e` atomically changed exactly:
+  - no active or queued workflow gates remained after verification
+  - historical failed `Deploy GitHub Pages` runs were superseded by later successful runs
+  - commit `fa2bc6265ad1bab22697d0f83fb34916c0fd7add` atomically changed exactly:
     - `.github/workflows/pages.yml`
-    - `scripts/static-assets.mjs`
-  - the new gate checks local HTML/CSS resource references, rejects repository-root escapes, missing targets, non-files and zero-byte resources
-  - local pre-push validation of `scripts/static-assets.mjs` passed
-  - canonical workflow run `35521371693` completed successfully for `acc64d6dccb3d3173f719e996dee90452139a27e`
-  - every canonical workflow step was green, including smoke, accessibility/HTML integrity, social/SEO, published-route/sitemap, local asset/reference integrity, artifact upload and deploy
-  - dynamic Pages run `35521370858` also completed successfully for the same HEAD
-  - direct HTTP inspection of `https://az1nn.github.io/dr-jhs/` remains unavailable from the external web-inspection tool; publication status is therefore based on GitHub's successful deploy records
+    - `README.md`
+    - `scripts/static-conversion.mjs`
+  - the new conversion/telemetry gate validates:
+    - all tracked Instagram CTAs target `https://ig.me/m/medicinal_cann`
+    - required unique `data-cta` placements: `header`, `hero`, `final`, `mobile-sticky`
+    - the `#leadAssist` form hook and both `modalidade` options
+    - `instagram_click` placement metadata and `lead_assist_submit`
+    - UTM keys `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`
+    - local attribution storage key `jhs_attribution`
+    - README documentation remains aligned with the runtime contract
+  - canonical workflow run `35656059857` completed successfully for `fa2bc6265ad1bab22697d0f83fb34916c0fd7add`
+  - every canonical workflow step was green, including the new conversion/telemetry contract gate, artifact upload and deploy
+  - dynamic Pages run `35656058810` also completed successfully for the same HEAD
 - ACTIVE GATES:
   - none
 - DELTA:
-  - CI now prevents broken relative HTML/CSS resource references from reaching deployment
-  - no product copy, styling, runtime dependency or framework was changed
+  - CI now prevents accidental breakage of the existing Instagram conversion and attribution contract before deployment
+  - telemetry contract is explicitly documented without adding GTM/GA4 or new runtime dependencies
+  - no product copy, styling or medical-content behavior was changed
 - OPEN WORK:
-  - none for the local asset/reference integrity unit
+  - none for the conversion/telemetry contract unit
 - NEXT LOGICAL UNIT:
-  - add a lightweight static conversion/telemetry contract gate that verifies Instagram CTA targets and `data-cta` placement metadata, the lead-assist form hook/event contract, and the documented UTM attribution keys before deployment
+  - add a lightweight static privacy/data-minimization gate that asserts the lead-assist flow remains non-clinical and local-only: no free-text health fields, no email/phone capture, no remote form action, and no fetch/XHR/beacon submission path
 - HUMAN GATES: none known
 
 ## Mutation rule
